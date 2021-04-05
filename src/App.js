@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 const api = {
-  key: "39b2764affea0f32221fd741dca393a6",
+  key: "ef7bfe0a865c8f9b13aa0c8fe29d4510",
   base: "https://api.openweathermap.org/data/2.5/",
 };
 
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
-  // const [forecast, setForecast] = useState({});
+  const [forecast, setForecast] = useState({});
 
   // When enter key pressed in search bar, fetch data & return in JSON
   const search = (evt) => {
@@ -21,22 +21,29 @@ function App() {
           setQuery("");
           console.log(result);
         });
-
-      //Ran out of time
-      // Attempting to pass latitude and longitude from first fetch into second to get weekly weather forecast
-
-      // fetch(
-      //   `${api.base}onecall?lat=${lat}&lat=${lon}&exclude=current,minutely,hourly,alerts&units=metric&APPID=${api.key}`
-      // )
-      //   .then((res) => res.json())
-      //   .then((result) => {
-      //     setForecast(result);
-      //     // setQuery("");
-      //     console.log(result);
-      //   });
     }
   };
-  console.log(search);
+
+  // Props to pass latitude and longitude from first fetch into second to get weekly weather forecast
+  function Forecast(props) {
+    console.log(props);
+    // use fetch to return the forecast ... problems!!!!
+    fetch(`${api.base}onecall?lat=${props.lat}&lon=${props.lon}&exclude=current,minutely,hourly,alerts&units=metric&APPID=${api.key}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setForecast(result);
+        console.log(result);
+      },[]);
+
+    return (
+      <div><h2>4 Day Forecast: </h2>
+        {/* <div>{forecast.daily[0]}</div> */}
+      </div>
+      // iterate over forecast using map function
+    );
+  }
+
+
   const dateBuilder = (d) => {
     let months = [
       "January",
@@ -122,6 +129,11 @@ function App() {
               <div className="wind-speed">
                 Wind: {Math.round(weather.wind.speed)}km/h
               </div>
+              {/* Debugging latitude and longitude */}
+              {/* <div>Latitude: {weather.coord.lat}</div>
+              <div>Longitude: {weather.coord.lon}</div> */}
+              {/* calling forecast function with lat and lon from weather object */}
+              <Forecast lat={weather.coord.lat} lon={weather.coord.lon}></Forecast>
             </div>
           </div>
         ) : (
