@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BsCloud } from "react-icons/bs";
+
 const api = {
   key: "39b2764affea0f32221fd741dca393a6",
   base: "https://api.openweathermap.org/data/2.5/",
@@ -8,27 +8,32 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
-  const [forecast, setForecast] = useState({});
+  // const [forecast, setForecast] = useState({});
 
+  // When enter key pressed in search bar, fetch data & return in JSON
   const search = (evt) => {
     if (evt.key === "Enter") {
       fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
         .then((res) => res.json())
         .then((result) => {
+          // Set our state as the result of the query
           setWeather(result);
           setQuery("");
           console.log(result);
         });
 
-      fetch(
-        `${api.base}onecall?lat=${query}&lat=${query}&exclude=current,minutely,hourly,alerts&units=metric&APPID=${api.key}`
-      )
-        .then((res) => res.json())
-        .then((result) => {
-          setForecast(result);
-          // setQuery("");
-          console.log(result);
-        });
+      //Ran out of time
+      // Attempting to pass latitude and longitude from first fetch into second to get weekly weather forecast
+
+      // fetch(
+      //   `${api.base}onecall?lat=${coord.lat}&lat=${coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&APPID=${api.key}`
+      // )
+      //   .then((res) => res.json())
+      //   .then((result) => {
+      //     setForecast(result);
+      //     // setQuery("");
+      //     console.log(result);
+      //   });
     }
   };
 
@@ -64,6 +69,7 @@ function App() {
     return `${day} ${date} ${month} ${year}`;
   };
   return (
+    // If there is no main weather results use cold background, otherwise if temp is above 16 change to warm background, less than 16 change to cold background
     <div
       className={
         typeof weather.main != "undefined"
@@ -79,8 +85,10 @@ function App() {
             type="text"
             className="search-bar"
             placeholder="Search..."
+            // Set our query from the user input in the search box
             onChange={(e) => setQuery(e.target.value)}
             value={query}
+            // Once 'enter' key is pressed, run our search query
             onKeyPress={search}
           />
         </div>
@@ -94,6 +102,7 @@ function App() {
               <div className="date">{dateBuilder(new Date())}</div>
             </div>
             <div className="weather-icon">
+              {/* Get dynamic weather icon by using our search query */}
               <img
                 src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
                 alt=""
@@ -101,6 +110,7 @@ function App() {
             </div>
             <div className="weather-box">
               <div className="temp">
+                {/* Get rounded temperature in celcius, found in first result of weather array */}
                 {Math.round(weather.main.temp)}°c
                 <div className="weather">{weather.weather[0].main}</div>
               </div>
