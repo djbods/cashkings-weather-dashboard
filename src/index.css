@@ -11,13 +11,14 @@ body {
 .app {
   background-image: url('./assets/cold-bg.jpg');
   background-size: cover;
-  background-position: bottom;
+  background-position: top;
   transition: 0.4s ease-out;
 }
 
 .app-warm {
-  background-image: url("./assets/warm-bg.jpg"); background-size: cover;
-  background-position: bottom;
+  background-image: url("./assets/warm-bg.jpeg");
+  background-size: cover;
+  background-position: top;
   transition: 0.4s ease-out;
 }
 
@@ -83,7 +84,8 @@ body {
 }
 
 .weather-box .temp {
-    text-align: center; 
+  width: 100%;
+  text-align: center;
   position: relative;
   display: inline-block;
   margin: 30px auto;
@@ -112,7 +114,20 @@ body {
 }
 
 .additional {
-  padding: 20px 10px
+  text-align: center;
+  width: 100%;
+  position: relative;
+  display: block;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+
+  padding: 15px 25px;
+
+  color: grey;
+
+  /* text-shadow: 3px 6px rgba(50, 50, 70, 0.);
+  box-shadow: 3px 6px rgba(0, 0, 0, 0.2); */
 }
 
 .additional .humidity {
@@ -124,13 +139,21 @@ body {
 }
 
 .additional .wind-speed {
+  text-align: center;
   color: #FFF;
   font-size: 36px;
   font-weight: 700;
   text-shadow: 3px 6px rgba(50, 50, 70, 0.5);
   text-align: center;
+  
 }
 
-.cloud-icon {
-  padding: 10px 10px 10px;
+.additional .weather {
+  text-align: center;
+}
+
+.weather-icon {
+  text-align: center;
+  align-items: center;
+  height: 150px;
 }

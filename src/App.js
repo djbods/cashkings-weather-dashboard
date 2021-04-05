@@ -8,8 +8,7 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [weather, setWeather] = useState({});
-  const [humidity, setHumidity] = useState("");
-  const [wind, setWind] = useState("");
+  const [forecast, setForecast] = useState({});
 
   const search = (evt) => {
     if (evt.key === "Enter") {
@@ -18,11 +17,21 @@ function App() {
         .then((result) => {
           setWeather(result);
           setQuery("");
-          setHumidity("");
+          console.log(result);
+        });
+
+      fetch(
+        `${api.base}onecall?lat=${query}&lat=${query}&exclude=current,minutely,hourly,alerts&units=metric&APPID=${api.key}`
+      )
+        .then((res) => res.json())
+        .then((result) => {
+          setForecast(result);
+          // setQuery("");
           console.log(result);
         });
     }
   };
+
   const dateBuilder = (d) => {
     let months = [
       "January",
@@ -84,15 +93,18 @@ function App() {
 
               <div className="date">{dateBuilder(new Date())}</div>
             </div>
+            <div className="weather-icon">
+              <img
+                src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
+                alt=""
+              />
+            </div>
             <div className="weather-box">
               <div className="temp">
-                {" "}
-                <BsCloud className="cloud-icon" />
                 {Math.round(weather.main.temp)}°c
+                <div className="weather">{weather.weather[0].main}</div>
               </div>
             </div>
-            <div className="weather">{weather.weather[0].main}</div>
-
             <div className="additional">
               <div className="humidity">
                 Humidity: {weather.main.humidity}%{" "}
