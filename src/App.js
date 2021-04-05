@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-
+import { BsCloud } from "react-icons/bs";
 const api = {
   key: "39b2764affea0f32221fd741dca393a6",
-  base: "https://api.openweathermap.org/data/2.5",
+  base: "https://api.openweathermap.org/data/2.5/",
 };
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
         .then((result) => {
           setWeather(result);
           setQuery("");
+          setHumidity("");
           console.log(result);
         });
     }
@@ -54,8 +55,16 @@ function App() {
     return `${day} ${date} ${month} ${year}`;
   };
   return (
-    <div className="app">
-      <main>
+    <div
+      className={
+        typeof weather.main != "undefined"
+          ? weather.main.temp > 16
+            ? "app-warm"
+            : "app"
+          : "app"
+      }
+    >
+      <main className="layout">
         <div className="search-box">
           <input
             type="text"
@@ -76,13 +85,21 @@ function App() {
               <div className="date">{dateBuilder(new Date())}</div>
             </div>
             <div className="weather-box">
-              <div className="temp">15°c</div>
+              <div className="temp">
+                {" "}
+                <BsCloud className="cloud-icon" />
+                {Math.round(weather.main.temp)}°c
+              </div>
             </div>
-            <div className="weather">Sunny</div>
+            <div className="weather">{weather.weather[0].main}</div>
 
             <div className="additional">
-              <div className="humidity">Humidity: 30% </div>
-              <div className="wind-speed">Wind: 18km/h</div>
+              <div className="humidity">
+                Humidity: {weather.main.humidity}%{" "}
+              </div>
+              <div className="wind-speed">
+                Wind: {Math.round(weather.wind.speed)}km/h
+              </div>
             </div>
           </div>
         ) : (
