@@ -20,6 +20,8 @@ function App() {
           setWeather(result);
           setQuery("");
           console.log(result);
+          const lat = result.coord.lat;
+          const lon = result.coord.lon;
         });
 
       //Ran out of time
@@ -36,7 +38,7 @@ function App() {
       //   });
     }
   };
-  console.log(search);
+  console.log(evt);
   const dateBuilder = (d) => {
     let months = [
       "January",
